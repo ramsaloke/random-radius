@@ -3,6 +3,7 @@ import './App.css';
 
 const App = () => {
   const [circles, setCircles] = useState([]);
+  const [backgroundColor, setBackgroundColor] = useState('white'); // State for background color
 
   const handleClick = (event) => {
     const { clientX, clientY } = event;
@@ -31,12 +32,12 @@ const App = () => {
       const sumOfRadii = circle1.radius + circle2.radius;
 
       if (distance < sumOfRadii) {
-        document.body.style.backgroundColor = 'lightcoral';
+        setBackgroundColor('lightcoral'); // Set background color to lightcoral if circles intersect
       } else {
-        document.body.style.backgroundColor = 'lightblue';
+        setBackgroundColor('lightblue'); // Set background color to lightblue if circles do not intersect
       }
     } else {
-      document.body.style.backgroundColor = 'white';
+      setBackgroundColor('white'); // Reset background color to white if there are fewer than 2 circles
     }
   };
 
@@ -47,9 +48,29 @@ const App = () => {
         height: '100vh',
         position: 'relative',
         overflow: 'hidden',
+        backgroundColor: backgroundColor, // Use the state for background color
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        cursor: 'pointer', // Show a pointer cursor to indicate clickability
       }}
       onClick={handleClick}
     >
+      {/* Show "Click Here" message only if there are no circles */}
+      {circles.length === 0 && (
+        <div
+          style={{
+            fontSize: '24px',
+            fontWeight: 'bold',
+            color: 'black',
+            textAlign: 'center',
+          }}
+        >
+          Click Here
+        </div>
+      )}
+
+      {/* Render circles */}
       {circles.map((circle, index) => (
         <div
           key={index}
